@@ -6,7 +6,8 @@ requirejs.config({
         backbone: 'vendor/backbone-1.0.0',
         pubnub: 'vendor/pubnub-3.5.4',
         backbonePubnub:'vendor/backbone-pubnub-0.1.6',
-        text: 'vendor/text-2.0.10'
+        text: 'vendor/text-2.0.10',
+        bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min'
     },
     shim: {
         'backbone': {
@@ -21,12 +22,15 @@ requirejs.config({
         },
         "backbonePubnub": {
             deps: ['backbone', 'pubnub']
+        },
+        "bootstrap": {
+            deps: ['jquery']
         }
     }
 });
 
 // Start the main app logic.
-requirejs(['jquery', 'app/test', 'text'],
+requirejs(['jquery', 'app/test', 'text', 'bootstrap'],
 function   ($, MainView, text) {
     var view = new MainView();
     var content = view.render();

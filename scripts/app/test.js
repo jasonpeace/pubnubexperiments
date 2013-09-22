@@ -20,22 +20,22 @@ define(function (require) {
                 //, uuid          : 'blahoink00011111'
             });
             pn.ready();
+            var self = this;
             pn.subscribe({
                 channel : "oink",
                 //backfill   : true,
                 //noheresync : true,
-                callback : function(m){console.log(m)},
+                callback : function(m){self.addMessage(m, '#messagesReceivedList')},
                 connect : function(){ console.log('connected')}
             });
-            //this.listenTo(this.messages, 'add', this.addMessage);
             this.pn = pn;
         },
         render: function(){
             this.$el.html(content());
             return this.$el;
         },
-        addMessage: function(event){
-            debugger;
+        addMessage: function(message, target){
+            this.$el.find(target).append("<li>" + message + "</li>");
         },
         submitMessage: function(event){
             if (!this.pn){ throw "PubNub not initialized.";}
@@ -44,6 +44,7 @@ define(function (require) {
             config.channel = 'oink';
             config.message = message;
             console.log("Attempting to broadcast to channel: oink with message: " + message);
+            this.addMessage(message, '#messagesSentList')
             this.pn.publish(config);
         },
         getMessage: function(){
