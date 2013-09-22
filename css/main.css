@@ -1,0 +1,13 @@
+.messageInput {
+    width:50%;
+    height:300px;
+}
+
+#messagesSentList, #messagesReceivedList{
+    height: 400px;
+    overflow:auto;
+}
+
+#dataLists {
+    height:300px;
+}

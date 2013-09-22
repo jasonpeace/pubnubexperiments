@@ -1,11 +1,14 @@
 define(function (require) {
-    var Backbone        = require("backbone"),
-        _               = require("underscore"),
-        testTemplate    = require("text!templates/test.html"),
-        PUBNUB          = require('pubnub'),
-        content         = _.template(testTemplate);
+    var Backbone            = require("backbone"),
+        _                   = require("underscore"),
+        testTemplate        = require("text!templates/test.html"),
+        listItemTemplate    = require("text!templates/messageListItem.html"),
+        listItem            = _.template(listItemTemplate),
+        PUBNUB              = require('pubnub'),
+        content             = _.template(testTemplate),
+        moment              = require('moment'),
 
-    var MainView = Backbone.View.extend({
+        MainView = Backbone.View.extend({
         tagName: "div",
         events: {
             "click #submitMessage" : "submitMessage",
@@ -23,9 +26,12 @@ define(function (require) {
             var self = this;
             pn.subscribe({
                 channel : "oink",
-                //backfill   : true,
-                //noheresync : true,
-                callback : function(m){self.addMessage(m, '#messagesReceivedList')},
+                backfill   : true,
+                noheresync : true,
+                callback : function(m){
+                        m.received = new Date().getTime();
+                        self.addMessage(m, '#messagesReceivedList')
+                },
                 connect : function(){ console.log('connected')}
             });
             this.pn = pn;
@@ -35,16 +41,22 @@ define(function (require) {
             return this.$el;
         },
         addMessage: function(message, target){
-            this.$el.find(target).append("<li>" + message + "</li>");
+            this.$el.find(target).prepend(listItem({data:message, view:this}));
+        },
+        formatDate:function(epoch){
+            return moment(epoch).format('YYYY-MM-DD HH:mm:ss');
         },
         submitMessage: function(event){
             if (!this.pn){ throw "PubNub not initialized.";}
-            var message = this.getMessage();
             var config = {};
             config.channel = 'oink';
-            config.message = message;
-            console.log("Attempting to broadcast to channel: oink with message: " + message);
-            this.addMessage(message, '#messagesSentList')
+
+            var packet = {};
+            packet.sent = new Date().getTime();
+            packet.message = this.getMessage();
+            config.message = packet;
+            console.log("Attempting to broadcast to channel: oink with message: " + packet.message);
+            this.addMessage(packet, '#messagesSentList')
             this.pn.publish(config);
         },
         getMessage: function(){

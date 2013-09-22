@@ -7,7 +7,8 @@ requirejs.config({
         pubnub: 'vendor/pubnub-3.5.4',
         backbonePubnub:'vendor/backbone-pubnub-0.1.6',
         text: 'vendor/text-2.0.10',
-        bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min'
+        bootstrap: '//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min',
+        moment: 'vendor/moment.min-2.2.1'
     },
     shim: {
         'backbone': {
