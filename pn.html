@@ -1,0 +1,25 @@
+<script src=http://cdn.pubnub.com/pubnub-3.5.4.min.js ></script>
+<script>(function(){
+
+    // Init
+    var pubnub = PUBNUB.init({
+        publish_key : 'pub-c-8858ff58-ac48-4e3c-b132-76e2d0f95e6c',
+        subscribe_key : 'sub-c-4c613c54-222e-11e3-be11-02ee2ddab7fe'
+    })
+
+    // LISTEN
+    pubnub.subscribe({
+        channel : "oink",
+        message : function(m){ alert(m) },
+        connect : publish
+    })
+
+    // SEND
+    function publish() {
+        pubnub.publish({
+            channel : "oink",
+            message : "Hi."
+        })
+    }
+
+})();</script>
