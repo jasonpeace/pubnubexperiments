@@ -1,7 +1,7 @@
 define(function (require) {
     var Backbone            = require("backbone"),
         _                   = require("underscore"),
-        testTemplate        = require("text!templates/test.html"),
+        testTemplate        = require("text!templates/app.html"),
         listItemTemplate    = require("text!templates/messageListItem.html"),
         listItem            = _.template(listItemTemplate),
         PUBNUB              = require('pubnub'),
@@ -28,7 +28,7 @@ define(function (require) {
                 channel : "oink",
                 backfill   : true,
                 noheresync : true,
-                callback : function(m){
+                callback : function (m){
                         m.received = new Date().getTime();
                         self.addMessage(m, '#messagesReceivedList')
                 },

@@ -11,3 +11,8 @@
 #dataLists {
     height:300px;
 }
+
+#dataLists>div{
+    float:left;
+    width:50%;
+}

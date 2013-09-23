@@ -31,7 +31,7 @@ requirejs.config({
 });
 
 // Start the main app logic.
-requirejs(['jquery', 'app/test', 'text', 'bootstrap'],
+requirejs(['jquery', 'app/app', 'text', 'bootstrap'],
 function   ($, MainView, text) {
     var view = new MainView();
     var content = view.render();
